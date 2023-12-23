@@ -44,10 +44,11 @@ public class WeatherService {
         try {
             restTemplate = new RestTemplate();
             String apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
-            ResponseEntity<MWeather.Response> response = restTemplate.getForEntity(apiURL, Response.class);
+            ResponseEntity<Response> response = restTemplate.getForEntity(apiURL, Response.class);
 
             if(response.getStatusCode() == HttpStatus.OK) {
                 Response dataResponse = response.getBody();
+                log.info("dataResponse {}", dataResponse);
                 if(dataResponse != null) return MWeather.create(dataResponse);
             }
         }catch (Exception e) {

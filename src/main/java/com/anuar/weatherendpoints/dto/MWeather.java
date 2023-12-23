@@ -24,7 +24,7 @@ public class MWeather {
     public static MWeather create(Response response) {
         return MWeather.builder()
                 .city(response.getName())
-                .description(response.getWeathers().get(0).getDescription())
+                .description(response.getWeather().get(0).getDescription())
                 .temperature(response.getMain().getTemp())
                 .build();
     }
@@ -34,7 +34,7 @@ public class MWeather {
     @ToString
     public static class Response {
         private Main main;
-        private List<Weather> weathers;
+        private List<Weather> weather;
         private String name;
 
         @Getter
