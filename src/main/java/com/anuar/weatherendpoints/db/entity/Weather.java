@@ -1,6 +1,7 @@
 package com.anuar.weatherendpoints.db.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import lombok.ToString;
 @Table
 @Getter
 @Setter
+@Builder
 @ToString
 public class Weather {
 
