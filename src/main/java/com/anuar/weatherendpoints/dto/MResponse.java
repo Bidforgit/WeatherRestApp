@@ -13,6 +13,4 @@ public class MResponse {
 
     private String response;
 
-
-
 }

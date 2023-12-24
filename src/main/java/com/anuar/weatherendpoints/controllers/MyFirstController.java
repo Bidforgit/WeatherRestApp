@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MyFirstController {
 
-
     private final WeatherService weatherService;
 
     @GetMapping("/testFirstEndpoint")
@@ -28,5 +27,18 @@ public class MyFirstController {
         return weatherService.getWeather(city);
     }
 
+    @PostMapping("/saveWeather")
+    public MResponse saveWeather(@RequestBody Weather weather) {
+       return weatherService.saveWeather(weather);
+    }
 
+    @PutMapping("/updateWeather")
+    public MResponse updateWeather(@RequestBody Weather weather) {
+        return weatherService.updateWeather(weather);
+    }
+
+    @DeleteMapping("/deleteWeather")
+    public MResponse deleteWeather(@RequestParam String city) {
+        return weatherService.deleteWeather(city);
+    }
 }

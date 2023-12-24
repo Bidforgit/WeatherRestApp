@@ -23,7 +23,6 @@ import java.util.Optional;
 @Slf4j
 public class WeatherService {
 
-
     private final WeatherRepository weatherRepository;
 
     private RestTemplate restTemplate;
@@ -32,14 +31,6 @@ public class WeatherService {
     private String apiKey;
     
     public MWeather getWeather(String city) {
-
-//        Optional<Weather> weatherCity = weatherRepository.findByCity(city);
-//        if(weatherCity.isPresent()) {
-//            Weather weather = weatherCity.get();
-//            return MWeather.create(weather);
-//        }
-//        return null;
-
         if(city.equals("")) return null;
         try {
             restTemplate = new RestTemplate();
@@ -54,7 +45,50 @@ public class WeatherService {
         }catch (Exception e) {
             log.error("Exception with 3rd party service {}", e.getMessage());
         }
-
         return null;
+    }
+
+    public MResponse saveWeather(Weather weather) {
+        try{
+            weatherRepository.save(weather);
+        }catch (Exception ex){
+            log.error("Exception with {}", ex.getMessage());
+        }
+        return MResponse.builder()
+                .status("200")
+                .response("successfully created")
+                .build();
+    }
+
+    public MResponse updateWeather(Weather weather) {
+        try{
+            Optional<Weather> dataResponse = weatherRepository.findByCity(weather.getCity());
+            if (dataResponse.isPresent()) {
+                Weather dataWeather = dataResponse.get();
+                dataWeather.setDescription(weather.getDescription());
+                dataWeather.setTemperature(weather.getTemperature());
+                weatherRepository.save(dataWeather);
+            }
+        }catch (Exception ex){
+            log.error("Exception with {}", ex.getMessage());
+        }
+        return MResponse.builder()
+                .status("200")
+                .response("successfully updated")
+                .build();
+    }
+
+    public MResponse deleteWeather(String city) {
+        try{
+            Optional<Weather> dataResponse = weatherRepository.findByCity(city);
+
+            dataResponse.ifPresent(weather -> weatherRepository.deleteById(weather.getId()));
+        }catch (Exception ex){
+            log.error("Exception with {}", ex.getMessage());
+        }
+        return MResponse.builder()
+                .status("200")
+                .response("successfully deleted")
+                .build();
     }
 }
